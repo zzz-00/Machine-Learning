@@ -83,3 +83,7 @@ print(f"z2: \n {z2}")
 print(f"z3: \n {z3}")
 
 # Single-element tensors
+# You can convert a one-element tensor to a Python numerical value using item()
+agg = tensor.sum()
+agg_item = agg.item()
+print(agg_item, type(agg_item))
