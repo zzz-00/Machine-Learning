@@ -6,7 +6,7 @@ from torchvision.transforms import ToTensor
 import os
 
 
-# Get current working directory path test
+# Get current working directory path
 directort_dir = os.getcwd()
 dst_dir = os.path.join(directort_dir, "00QuickStart", "data")
 print(dst_dir)
