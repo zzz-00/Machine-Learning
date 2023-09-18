@@ -3,18 +3,26 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
+import os
+
+
+# Get current working directory path
+directort_dir = os.getcwd()
+dst_dir = os.path.join(directort_dir, "00QuickStart", "data")
+print(dst_dir)
 
 # Download training data from open datasets
 training_data = datasets.FashionMNIST(
-    root="data",
+    root=dst_dir,
     train=True,
     download=True,
     transform=ToTensor(),
 )
+print(training_data)
 
 # Download test data from open datasets
 test_data = datasets.FashionMNIST(
-    root="data",
+    root=dst_dir,
     train=False,
     download=True,
     transform=ToTensor(),
@@ -23,7 +31,7 @@ test_data = datasets.FashionMNIST(
 batch_size = 64
 
 # Create data loaders.
-train_ddataloader = DataLoader(training_data, batch_size=batch_size)
+train_dataloader = DataLoader(training_data, batch_size=batch_size)
 test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
 for X, y in test_dataloader:
@@ -53,7 +61,7 @@ class NeuralNetwork(nn.Module):
             nn.ReLU(),
             nn.Linear(512, 512),
             nn.ReLU(),
-            nn.Linear(512, 8),
+            nn.Linear(512, 10),
         )
 
     def forward(self, x):
@@ -104,18 +112,18 @@ def test(dataloader, model, loss_fn):
     test_loss /= num_batches
     correct /= size
     print(
-        f"""Test Error: \n Accuracy: {(100*correct):>0.1f}%
-        , Avg loss: {test_loss:>8f} \n"""
+        f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n"
     )
 
 
 epochs = 5
 for t in range(epochs):
     print(f"Epoch {t+1}\n------------------------------")
-    train(train_ddataloader, model, loss_fn, optimizer)
+    train(train_dataloader, model, loss_fn, optimizer)
     test(test_dataloader, model, loss_fn)
 print("Done!")
 
 # Saving Models
-torch.save(model.state_dict(), "model.pth")
+save_dir = os.path.join(directort_dir, "00QuickStart", "model.pth")
+torch.save(model.state_dict(), save_dir)
 print("Save PyTorch Model State to model.pth")
