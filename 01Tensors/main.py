@@ -86,4 +86,24 @@ print(f"z3: \n {z3}")
 # You can convert a one-element tensor to a Python numerical value using item()
 agg = tensor.sum()
 agg_item = agg.item()
-print(agg_item, type(agg_item))
+print(f"agg_item: \n {agg_item}")
+print(f"Type of agg_item: \n {type(agg_item)}")
+
+# In-place operation
+# Operations that store the result into the operand are called in-place. They are denoted by a _ suffix.
+print(f"tensor: \n {tensor} \n")
+tensor.add_(5)
+print(f"after add_(5): \n {tensor} \n")
+
+# Bridge with NumPy
+# Tensors on the CPU and NumPy arrays can share their underlying memory locations, and changing one will change the other.
+# Tensor to NumPy array
+t = torch.ones(5)
+print(f"t: {t}")
+n = t.numpy()
+print(f"n: {n}")
+
+# A change in the tensor reflects in the NumPy array.
+t.add_(1)
+print(f"t: {t}")
+print(f"n: {n}")
