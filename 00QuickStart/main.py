@@ -7,8 +7,8 @@ import os
 
 
 # Get current working directory path
-directort_dir = os.getcwd()
-dst_dir = os.path.join(directort_dir, "00QuickStart", "data")
+directory_dir = os.getcwd()
+dst_dir = os.path.join(directory_dir, "00QuickStart", "data")
 print(dst_dir)
 
 # Download training data from open datasets
@@ -124,7 +124,7 @@ for t in range(epochs):
 print("Done!")
 
 # Saving Models
-save_dir = os.path.join(directort_dir, "00QuickStart", "model.pth")
+save_dir = os.path.join(directory_dir, "00QuickStart", "model.pth")
 torch.save(model.state_dict(), save_dir)
 print("Save PyTorch Model State to model.pth")
 

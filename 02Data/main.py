@@ -15,8 +15,8 @@ import pandas as pd
 
 
 # Get current working directory path
-directort_dir = os.getcwd()
-dst_dir = os.path.join(directort_dir, "02Data", "data")
+directory_dir = os.getcwd()
+dst_dir = os.path.join(directory_dir, "02Data", "data")
 print(dst_dir)
 
 training_data = datasets.FashionMNIST(
