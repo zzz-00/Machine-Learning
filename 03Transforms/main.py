@@ -16,10 +16,10 @@ ds = datasets.FashionMNIST(
     root=dst_dir,
     train=True,
     download=True,
-    transform=ToTensor(),
+    transform=ToTensor(),  # ToTensor converts a PIL image or NumPy ndarray into a FloatTensor. and scales the image’s pixel intensity values in the range [0., 1.]
     target_transform=Lambda(
         lambda y: torch.zeros(10, dtype=torch.float).scatter_(
-            0, torch.tensor(y), value=1
-        )
+            dim=0, index=torch.tensor(y), value=1
+        )  # It first creates a zero tensor of size 10 and calls scatter_ which assigns a value=1 on the index as given by the label y.
     ),
 )
