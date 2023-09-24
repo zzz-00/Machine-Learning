@@ -1,8 +1,5 @@
-import os
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
 
 
 # Get device for training
@@ -57,3 +54,31 @@ print(flat_image.size())
 layer1 = nn.Linear(in_features=28 * 28, out_features=20)
 hidden1 = layer1(flat_image)
 print(hidden1.size())
+
+# Non-linear activations are what create the complex mappings between the model’s inputs and outputs.
+print(f"Before ReLU: {hidden1}\n\n")
+hidden1 = nn.ReLU()(hidden1)
+print(f"After ReLU: {hidden1}")
+
+# nn.Sequential is an ordered container of modules. The data is passed through all the modules in the same order as defined.
+# You can use sequential containers to put together a quick network like seq_modules.
+seq_modules = nn.Sequential(
+    flatten,
+    layer1,
+    nn.ReLU(),
+    nn.Linear(20, 10),
+)
+input_image = torch.rand(3, 28, 28)
+logits = seq_modules(input_image)
+
+softmax = nn.Softmax(dim=1)
+pred_probab = softmax(logits)
+
+# Model Parameters
+# Many layers inside a neural network are parameterized, i.e. have associated weights and biases that are optimized during training
+# Subclassing nn.Module automatically tracks all fields defined inside your model object,
+# and makes all parameters accessible using your model’s parameters() or named_parameters() methods.
+print(f"Model structure: {model}\n\n")
+
+for name, param in model.named_parameters():
+    print(f"Layer: {name} | Size: {param.size()} | Values: {param[:2]} \n")
