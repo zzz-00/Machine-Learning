@@ -41,7 +41,7 @@ class MyDataset(Dataset):
             # Randomly get the starting point of the segment.
             start = random.randint(0, len(mel) - self.segment_len)
             # Get a segment with "segment_len" frames.
-            mel = torch.FloatTensor(mel[start:start + self.segment_len])
+            mel = torch.FloatTensor(mel[start : start + self.segment_len])
         else:
             mel = torch.FloatTensor(mel)
         # Turn the speaker id into long for computing loss later.

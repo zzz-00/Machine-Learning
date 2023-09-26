@@ -1,6 +1,10 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+
+# Learning rate schedule
+import math
+from torch.optim import Optimizer
+from torch.optim.lr_scheduler import LambdaLR
 
 
 class Classifier(nn.Module):
@@ -46,20 +50,12 @@ class Classifier(nn.Module):
         return out
 
 
-# Learning rate schedule
-import math
-
-import torch
-from torch.optim import Optimizer
-from torch.optim.lr_scheduler import LambdaLR
-
-
 def get_cosine_schedule_with_warmup(
-        optimizer: Optimizer,
-        num_warmup_steps: int,
-        num_training_steps: int,
-        num_cycles: float = 0.5,
-        last_epoch: int = -1,
+    optimizer: Optimizer,
+    num_warmup_steps: int,
+    num_training_steps: int,
+    num_cycles: float = 0.5,
+    last_epoch: int = -1,
 ):
     """
     Create a schedule with a learning rate that decreases following the values of the cosine function between the
@@ -99,9 +95,6 @@ def get_cosine_schedule_with_warmup(
 
 
 # model function
-import torch
-
-
 def model_fn(batch, model, criterion, device):
     """Forward a batch through the model."""
 

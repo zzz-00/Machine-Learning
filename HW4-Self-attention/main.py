@@ -5,6 +5,9 @@ import random
 from Dataloader import get_dataloader
 from Model import Classifier, get_cosine_schedule_with_warmup, model_fn
 from Validate import valid
+from tqdm import tqdm
+import torch.nn as nn
+from torch.optim import AdamW
 
 
 def set_seed(seed):
@@ -19,13 +22,6 @@ def set_seed(seed):
 
 
 set_seed(87)
-
-from tqdm import tqdm
-
-import torch
-import torch.nn as nn
-from torch.optim import AdamW
-from torch.utils.data import DataLoader, random_split
 
 
 def parse_args():
@@ -45,28 +41,30 @@ def parse_args():
 
 
 def main(
-        data_dir,
-        save_path,
-        batch_size,
-        n_workers,
-        valid_steps,
-        warmup_steps,
-        total_steps,
-        save_steps,
+    data_dir,
+    save_path,
+    batch_size,
+    n_workers,
+    valid_steps,
+    warmup_steps,
+    total_steps,
+    save_steps,
 ):
     """Main function."""
     device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
     print(f"[Info]: Use {device} now!")
 
-    train_loader, valid_loader, speaker_num = get_dataloader(data_dir, batch_size, n_workers)
+    train_loader, valid_loader, speaker_num = get_dataloader(
+        data_dir, batch_size, n_workers
+    )
     train_iterator = iter(train_loader)
-    print(f"[Info]: Finish loading data!", flush=True)
+    print("[Info]: Finish loading data!", flush=True)
 
     model = Classifier(n_spks=speaker_num).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = AdamW(model.parameters(), lr=1e-3)
     scheduler = get_cosine_schedule_with_warmup(optimizer, warmup_steps, total_steps)
-    print(f"[Info]: Finish creating model!", flush=True)
+    print("[Info]: Finish creating model!", flush=True)
 
     best_accuracy = -1.0
     best_state_dict = None
@@ -115,7 +113,9 @@ def main(
         # Save the best model so far.
         if (step + 1) % save_steps == 0 and best_state_dict is not None:
             torch.save(best_state_dict, save_path)
-            pbar.write(f"Step {step + 1}, best model saved. (accuracy={best_accuracy:.4f})")
+            pbar.write(
+                f"Step {step + 1}, best model saved. (accuracy={best_accuracy:.4f})"
+            )
 
     pbar.close()
 
