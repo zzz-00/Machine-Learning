@@ -27,8 +27,8 @@ set_seed(87)
 def parse_args():
     """arguments"""
     config = {
-        "data_dir": "./Dataset",
-        "save_path": "model.ckpt",
+        "data_dir": "./HW4-Self-attention/Dataset",
+        "save_path": "./HW4-Self-attention/model.ckpt",
         "batch_size": 32,
         "n_workers": 8,
         "valid_steps": 2000,

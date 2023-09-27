@@ -19,3 +19,5 @@
 /HW4-Self-attention/Dataset
 /HW4-Self-attention/Dataset.tar
 /HW4-Self-attention/Dataset.tar.gz
+/HW4-Self-attention/__pycache__
+/HW4-Self-attention/model.ckpt
